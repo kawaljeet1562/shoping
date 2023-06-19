@@ -6,29 +6,11 @@ import { useContext } from "react";
 import { CartCtx } from "./CartContext";
 
 const Home = () => {
-  const { cart, setCart } = useContext(CartCtx);
-  // const ProductArray = [...Array(20)].map((parsedJson) => ({
-  //   id: parsedJson?.id,
-  //   title: parsedJson?.title,
-  //   price: parsedJson?.price,
-  //   image: parsedJson?.image,
-  // }));
-  const ProductArray = [...cart].map((product) => ({
-    key: product.id,
-    image: product?.image,
-    name: product.name,
-    price: product.price,
-  }));
+  const { items } = useContext(CartCtx);
 
-  console.log();
+  const cb = (prod) => <SingleProduct prod={prod} key={prod?.id} />;
 
-  const [products] = useState(ProductArray);
-  const cb = (prod) => {
-    console.log("prod is", prod);
-    return <SingleProduct prod={prod} key={prod?.id} />;
-  };
-
-  return <div className="product-container">{products.map(cb)}</div>;
+  return <div className="product-container">{items.map(cb)}</div>;
 };
 
 export default Home;

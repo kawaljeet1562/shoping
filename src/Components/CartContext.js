@@ -2,7 +2,7 @@ import React from "react";
 import { createContext, useState } from "react";
 export const CartCtx = createContext(null);
 
-const Items = [
+const items = [
   {
     id: "i1",
     name: "mobile-phone",
@@ -77,10 +77,36 @@ const Items = [
   },
 ];
 const CartContext = ({ children }) => {
-  const [cart, setCart] = useState(Items);
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (item) => {
+    console.log("addToCart item", item);
+    //make copy of cart list
+    //push item to  that cart
+    //set updated list to cart
+    const updatedList = [...cart];
+    updatedList.push(item);
+    setCart(updatedList);
+  };
+  const removeFromCart = (item) => {
+    console.log("removeFromCart itemId", item);
+    const isAddItem = (element) => element.id === item.id;
+    //find index of item in cart list
+    //remove item at that index in cart list
+    //set list to cart
+    const indexOfItem = cart.findIndex(isAddItem);
+    const updatedList = [...cart];
+    if (!updatedList.length) return;
+    updatedList.splice(indexOfItem, 1);
+    setCart(updatedList);
+  };
 
   return (
-    <CartCtx.Provider value={{ cart, setCart }}>{children}</CartCtx.Provider>
+    <CartCtx.Provider
+      value={{ items, cart, setCart, addToCart, removeFromCart }}
+    >
+      {children}
+    </CartCtx.Provider>
   );
 };
 
